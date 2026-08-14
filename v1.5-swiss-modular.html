@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aerolift Machinery Sdn Bhd — v1.5 Swiss Modular</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#101214; --ink-2:#2A2F34; --slate:#5D666F; --muted:#909AA3;
+  --line:#111214; --hair:#DEE2E6; --paper:#FFFFFF; --bone:#F2F1ED;
+  --yellow:#FFC800; --yellow-2:#FFE58A;
+  --blue:#12459E; --blue-tint:#E7EEFA;
+  --fd:'Space Grotesk',-apple-system,'Segoe UI',sans-serif;
+  --fb:'Inter',-apple-system,'Segoe UI',Roboto,sans-serif;
+  --maxw:1300px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--fb);color:var(--ink);background:var(--paper);font-size:16.5px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+
+h1,h2,h3{font-family:var(--fd);font-weight:700;line-height:1.02;letter-spacing:-.035em}
+h1{font-size:clamp(48px,8vw,104px)}
+h2{font-size:clamp(32px,4.6vw,58px)}
+h3{font-size:23px;letter-spacing:-.025em}
+h4{font-family:var(--fd);font-size:17px;font-weight:600;letter-spacing:-.02em}
+.eyebrow{font-family:var(--fb);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase}
+.lead{font-size:19px;color:var(--slate);max-width:56ch}
+.small{font-size:13.5px;color:var(--slate)}
+
+.slot{position:relative;background:var(--bone);overflow:hidden;display:grid;place-items:center}
+.slot>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.slot figcaption{position:relative;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-align:center;padding:20px;line-height:1.9}
+.tbc{background:var(--yellow-2);box-shadow:inset 0 -2px 0 var(--yellow);padding:0 4px;font-weight:600}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--fd);font-weight:600;
+  font-size:15.5px;letter-spacing:-.01em;border-radius:0;padding:0 26px;height:56px;border:2px solid var(--line);
+  cursor:pointer;white-space:nowrap;transition:.15s ease}
+.btn-fill{background:var(--ink);color:#fff}
+.btn-fill:hover{background:var(--blue);border-color:var(--blue)}
+.btn-yellow{background:var(--yellow);color:var(--ink)}
+.btn-yellow:hover{background:var(--ink);color:var(--yellow)}
+.btn-out{background:transparent;color:var(--ink)}
+.btn-out:hover{background:var(--ink);color:#fff}
+.btn-outw{background:transparent;color:#fff;border-color:#fff}
+.btn-outw:hover{background:#fff;color:var(--ink)}
+.btn-sm{height:42px;font-size:14px;padding:0 16px;border-width:2px}
+
+.util{background:var(--ink);color:#B0B7BE;font-size:12.5px}
+.util .wrap{display:flex;justify-content:space-between;align-items:center;height:38px;gap:22px}
+.util a{color:var(--yellow);font-weight:600}
+.util .l{display:flex;gap:24px}
+header{position:sticky;top:0;z-index:60;background:var(--paper);border-bottom:2px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:78px;gap:26px}
+.logo{display:flex;align-items:center;gap:12px}
+.logo .mark{width:42px;height:42px;flex:0 0 auto;background:var(--yellow);border:2px solid var(--line);display:grid;place-items:center;position:relative;overflow:hidden}
+.logo .mark::after{content:"";width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:14px solid var(--ink)}
+.logo .mark img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff}
+.logo .txt{font-family:var(--fd);font-size:21px;font-weight:700;line-height:1;letter-spacing:-.04em}
+.logo .txt span{display:block;font-family:var(--fb);font-size:8.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:5px}
+.menu{display:flex;gap:0}
+.menu a{font-size:14.5px;font-weight:600;padding:8px 15px;position:relative}
+.menu a:hover{color:var(--blue)}
+.menu a.on::after{content:"";position:absolute;left:15px;right:15px;bottom:0;height:3px;background:var(--yellow)}
+.burger{display:none;font-size:24px;background:none;border:0;cursor:pointer}
+
+/* ---- hero: modular blocks ---- */
+.hero{border-bottom:2px solid var(--line)}
+.hero .grid{display:grid;grid-template-columns:1.25fr .75fr;border-bottom:2px solid var(--line)}
+.hero .txtblk{padding:76px 32px 64px;max-width:900px;margin-left:auto;width:100%;border-right:2px solid var(--line)}
+.hero .txtblk .inner{max-width:760px;margin-left:auto}
+.hero .eyebrow{color:var(--blue)}
+.hero h1{margin:20px 0 26px}
+.hero h1 em{font-style:normal;background:var(--yellow);padding:0 .12em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.hero p{font-size:19px;color:var(--slate);max-width:46ch;margin-bottom:34px}
+.hero-act{display:flex;gap:14px;flex-wrap:wrap}
+.hero .imgblk{position:relative}
+.hero .imgblk .slot{position:absolute;inset:0}
+.hero .strip{display:grid;grid-template-columns:repeat(4,1fr)}
+.hero .strip div{padding:28px 32px;border-right:2px solid var(--line)}
+.hero .strip div:last-child{border-right:0}
+.hero .strip div:nth-child(1){background:var(--yellow)}
+.hero .strip b{display:block;font-family:var(--fd);font-size:clamp(26px,3vw,38px);font-weight:700;line-height:1;letter-spacing:-.04em}
+.hero .strip b i{font-style:normal;font-size:.48em}
+.hero .strip small{display:block;margin-top:9px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--slate)}
+.hero .strip div:nth-child(1) small{color:rgba(16,18,20,.7)}
+
+section{padding:104px 0}
+.bone{background:var(--bone)}
+.dark{background:var(--ink);color:#fff}
+.dark p,.dark .lead{color:#A8B0B8}
+.sec-head{display:grid;grid-template-columns:.28fr 1fr;gap:40px;margin-bottom:56px;align-items:start;
+  border-top:2px solid var(--line);padding-top:24px}
+.dark .sec-head{border-color:#3A4046}
+.sec-head .lbl{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);padding-top:8px}
+.sec-head h2{margin-bottom:16px}
+
+/* ---- services ---- */
+.g3{display:grid;grid-template-columns:repeat(3,1fr);border:2px solid var(--line)}
+.cell{padding:0;border-right:2px solid var(--line);display:flex;flex-direction:column;transition:.15s}
+.cell:last-child{border-right:0}
+.cell:hover{background:var(--bone)}
+.cell .slot{height:200px;border-bottom:2px solid var(--line)}
+.cell .bd{padding:30px;display:flex;flex-direction:column;flex:1}
+.cell .cap{font-family:var(--fd);font-size:13px;font-weight:700;letter-spacing:.02em;background:var(--yellow);
+  display:inline-block;align-self:flex-start;padding:4px 10px;margin-bottom:16px}
+.cell h3{margin-bottom:11px}
+.cell p{color:var(--slate);font-size:15.5px;flex:1}
+.cell .link{margin-top:22px;font-family:var(--fd);font-weight:600;font-size:15px;display:inline-flex;gap:8px;transition:gap .15s}
+.cell:hover .link{gap:14px}
+
+/* ---- fleet ---- */
+.fleetgrid{display:grid;grid-template-columns:repeat(4,1fr);border:2px solid var(--line)}
+.fb{padding:30px 26px;border-right:2px solid var(--line);border-bottom:2px solid var(--line)}
+.fb:nth-child(4n){border-right:0}
+.fb .cap{font-family:var(--fd);font-size:38px;font-weight:700;line-height:1;letter-spacing:-.045em}
+.fb .cap i{font-style:normal;font-size:.42em;color:var(--blue)}
+.fb .ty{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:14px 0 12px}
+.fb p{font-size:14.5px;color:var(--slate)}
+.fb .st{margin-top:16px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}
+.fb.full{grid-column:span 4;border-right:0;border-bottom:0;background:var(--ink);color:#fff;display:grid;
+  grid-template-columns:1fr 2fr;gap:32px;align-items:center}
+.fb.full .cap i{color:var(--yellow)}
+.fb.full p{color:#A8B0B8}
+.fb.full .ty{color:var(--yellow)}
+.fb.full .st{color:var(--yellow)}
+
+/* ---- assurance: yellow block ---- */
+.assure{display:grid;grid-template-columns:repeat(5,1fr);border:2px solid var(--line);background:var(--yellow)}
+.assure div{padding:30px 24px;border-right:2px solid var(--line)}
+.assure div:last-child{border-right:0}
+.assure .n{font-family:var(--fd);font-size:13px;font-weight:700;letter-spacing:.1em;margin-bottom:16px}
+.assure b{display:block;font-family:var(--fd);font-size:18px;font-weight:700;letter-spacing:-.025em;margin-bottom:8px}
+.assure p{font-size:14px;color:rgba(16,18,20,.76);line-height:1.5}
+
+/* ---- process ---- */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);border:2px solid #3A4046;counter-reset:st}
+.stepc{padding:30px 26px;border-right:2px solid #3A4046;counter-increment:st}
+.stepc:last-child{border-right:0}
+.stepc::before{content:"0" counter(st);display:block;font-family:var(--fd);font-size:40px;font-weight:700;
+  line-height:1;letter-spacing:-.05em;color:var(--yellow);margin-bottom:20px}
+.stepc h4{margin-bottom:8px}
+.stepc p{font-size:14.5px}
+
+/* ---- projects ---- */
+.gal{display:grid;grid-template-columns:repeat(3,1fr);border:2px solid var(--line)}
+.gal a{border-right:2px solid var(--line);border-bottom:2px solid var(--line);display:block}
+.gal a:nth-child(3n){border-right:0}
+.gal a:nth-last-child(-n+3){border-bottom:0}
+.gal a .slot{height:250px;border-bottom:2px solid var(--line)}
+.gal a .bd{padding:18px 22px;transition:.15s}
+.gal a:hover .bd{background:var(--yellow)}
+.gal .t{font-family:var(--fd);font-size:17px;font-weight:600;letter-spacing:-.02em}
+.gal .m{font-size:12.5px;color:var(--muted);margin-top:4px;letter-spacing:.02em}
+
+/* ---- quote form ---- */
+.quote{display:grid;grid-template-columns:.85fr 1.15fr;border:2px solid var(--line)}
+.quote .side{padding:44px 38px;background:var(--yellow);border-right:2px solid var(--line)}
+.quote .side h2{font-size:clamp(28px,3.2vw,40px);margin-bottom:16px}
+.quote .side p{color:rgba(16,18,20,.75);font-size:15.5px}
+.quote .side ul{list-style:none;margin-top:26px;display:grid;gap:10px;font-size:14.5px;font-weight:600}
+.quote .side li::before{content:"→ ";font-weight:700}
+.quote .form{padding:44px 38px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field label{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.field input,.field select,.field textarea{font-family:var(--fb);font-size:15.5px;padding:13px 14px;
+  border:2px solid var(--hair);border-radius:0;background:#fff;color:var(--ink);width:100%}
+.field input:focus,.field select:focus,.field textarea:focus{outline:0;border-color:var(--ink)}
+.field textarea{min-height:104px;resize:vertical}
+.formnote{font-size:12.5px;color:var(--muted);margin-top:14px}
+
+/* ---- about ---- */
+.about{display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--line)}
+.about .slot{min-height:460px;border-right:2px solid var(--line)}
+.about .bd{padding:48px 42px}
+.credbox{border:2px solid var(--line);margin-top:26px}
+.credbox .r{display:flex;justify-content:space-between;gap:16px;padding:13px 18px;border-bottom:2px solid var(--line);font-size:14.5px}
+.credbox .r:last-child{border-bottom:0}
+.credbox .r span:first-child{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+
+/* ---- cta ---- */
+.ctaband{background:var(--ink);color:#fff;padding:88px 0}
+.ctaband .wrap{display:flex;align-items:center;justify-content:space-between;gap:44px;flex-wrap:wrap}
+.ctaband p{color:#A8B0B8;max-width:44ch;margin-top:14px}
+
+footer{background:var(--paper);border-top:2px solid var(--line);color:var(--slate);font-size:15px;padding:70px 0 0}
+.fgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:42px}
+footer h5{font-family:var(--fb);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);margin-bottom:18px;font-weight:700}
+footer ul{list-style:none;display:grid;gap:9px}
+footer a:hover{color:var(--blue)}
+.fbot{margin-top:54px;border-top:2px solid var(--line);padding:20px 0;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:13px}
+.fbar{height:8px;background:var(--yellow);border-top:2px solid var(--line)}
+
+.mbar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:80;background:#fff;border-top:2px solid var(--line);padding:10px;gap:10px}
+.mbar .btn{flex:1;height:48px}
+
+@media(max-width:1080px){
+  .hero .grid{grid-template-columns:1fr}
+  .hero .txtblk{border-right:0;border-bottom:2px solid var(--line);padding:56px 32px}
+  .hero .txtblk .inner{margin-left:0}
+  .hero .imgblk{min-height:280px}
+  .hero .strip{grid-template-columns:repeat(2,1fr)}
+  .hero .strip div{border-bottom:2px solid var(--line)}
+  .hero .strip div:nth-child(2n){border-right:0}
+  .g3{grid-template-columns:1fr}
+  .cell{border-right:0;border-bottom:2px solid var(--line)}
+  .cell:last-child{border-bottom:0}
+  .fleetgrid{grid-template-columns:repeat(2,1fr)}
+  .fb:nth-child(2n){border-right:0}
+  .fb.full{grid-column:span 2;grid-template-columns:1fr;gap:16px}
+  .assure,.steps{grid-template-columns:repeat(2,1fr)}
+  .assure div,.stepc{border-bottom:2px solid var(--line)}
+  .stepc{border-bottom-color:#3A4046}
+  .gal{grid-template-columns:repeat(2,1fr)}
+  .gal a:nth-child(3n){border-right:2px solid var(--line)}
+  .gal a:nth-child(2n){border-right:0}
+  .quote,.about{grid-template-columns:1fr}
+  .quote .side,.about .slot{border-right:0;border-bottom:2px solid var(--line)}
+  .sec-head{grid-template-columns:1fr;gap:14px}
+  .fgrid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:720px){
+  body{font-size:16px}
+  section{padding:64px 0}
+  .wrap{padding:0 20px}
+  .menu{display:none}.burger{display:block}
+  .nav .btn{display:none}
+  .fleetgrid,.assure,.steps,.gal,.fgrid{grid-template-columns:1fr}
+  .fb,.gal a{border-right:0!important}
+  .fb.full{grid-column:span 1}
+  .frow{grid-template-columns:1fr}
+  .quote .side,.quote .form,.about .bd{padding:32px 24px}
+  .mbar{display:flex}
+  .util .l span:nth-child(2){display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="util"><div class="wrap">
+  <div class="l"><span>Mon–Fri 8:00–20:00</span><span>Seri Kembangan, Selangor</span></div>
+  <div><a href="tel:+60199155159">Call Andrew · +60 19-915 5159</a></div>
+</div></div>
+
+<header><div class="wrap nav">
+  <a class="logo" href="#">
+    <div class="mark"><img src="images/logo.png" alt="" onerror="this.remove()"></div>
+    <div class="txt">Aerolift<span>Machinery Sdn Bhd</span></div>
+  </a>
+  <nav class="menu">
+    <a href="#" class="on">Home</a><a href="#services">Services</a><a href="#fleet">Fleet</a>
+    <a href="#projects">Projects</a><a href="#about">About</a><a href="#contact">Contact</a>
+  </nav>
+  <a href="#contact" class="btn btn-yellow btn-sm">Get a quote →</a>
+  <button class="burger" aria-label="Menu">☰</button>
+</div></header>
+
+<div class="hero">
+  <div class="grid">
+    <div class="txtblk"><div class="inner">
+      <div class="eyebrow">Mobile crane &amp; skylift hire · KL · Selangor</div>
+      <h1>25–500<br>tonne lifts,<br><em>done right.</em></h1>
+      <p>JKKP/DOSH-registered competent operators, certified and inspected equipment, and same-day
+         site assessment for construction and industrial projects across Malaysia.</p>
+      <div class="hero-act">
+        <a href="#contact" class="btn btn-yellow">Get a quote in 24 hours →</a>
+        <a href="#fleet" class="btn btn-out">View fleet</a>
+      </div>
+    </div></div>
+    <div class="imgblk">
+      <figure class="slot"><img src="images/hero.jpg" alt="Aerolift mobile crane on site" onerror="this.remove()">
+        <figcaption>images/hero.jpg<br>1200×1400 portrait</figcaption></figure>
+    </div>
+  </div>
+  <div class="strip">
+    <div><b>25–500<i>T</i></b><small>Mobile crane capacity</small></div>
+    <div><b>20–55<i>M</i></b><small>Skylift working height</small></div>
+    <div><b>100<i>%</i></b><small>JKKP/DOSH operators</small></div>
+    <div><b><span class="tbc">##</span></b><small>Years operating</small></div>
+  </div>
+</div>
+
+<section id="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="lbl">01 / Services</div>
+      <div>
+        <h2>Three ways we get your load off the ground</h2>
+        <p class="lead">Beyond rental. We plan the lift, assess the site, and put a certified crew on it.</p>
+      </div>
+    </div>
+    <div class="g3">
+      <article class="cell">
+        <figure class="slot"><img src="images/service-mobile-crane.jpg" alt="" onerror="this.remove()">
+          <figcaption>service-mobile-crane.jpg<br>1200×800</figcaption></figure>
+        <div class="bd">
+          <span class="cap">25 – 500 T</span>
+          <h3>Mobile crane rental</h3>
+          <p>Road-mobile lifting from light urban jobs to heavy plant and infrastructure work.
+             Fast mobilisation across KL and Selangor, competent operator included.</p>
+          <a href="#fleet" class="link">See capacities →</a>
+        </div>
+      </article>
+      <article class="cell">
+        <figure class="slot"><img src="images/service-skylift.jpg" alt="" onerror="this.remove()">
+          <figcaption>service-skylift.jpg<br>1200×800</figcaption></figure>
+        <div class="bd">
+          <span class="cap">20 – 55 M</span>
+          <h3>Skylift &amp; access platform</h3>
+          <p>Safe working-at-height access for installation, maintenance and inspection —
+             indoor and outdoor, on paved and rough ground.</p>
+          <a href="#fleet" class="link">See working heights →</a>
+        </div>
+      </article>
+      <article class="cell">
+        <figure class="slot"><img src="images/service-planning.jpg" alt="" onerror="this.remove()">
+          <figcaption>service-planning.jpg<br>1200×800</figcaption></figure>
+        <div class="bd">
+          <span class="cap">Free assessment</span>
+          <h3>Lift planning &amp; site assessment</h3>
+          <p>Load, radius, ground bearing and access reviewed before a machine is booked — so the
+             lift is safe, efficient and correctly priced.</p>
+          <a href="#contact" class="link">Book an assessment →</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="fleet" class="bone">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="lbl">02 / Fleet</div>
+      <div>
+        <h2>Know what you're booking</h2>
+        <p class="lead">Buyers filter by tonnage before they ever call. These are the capacity bands
+           we cover — tell us the load and we'll confirm the exact machine.</p>
+      </div>
+    </div>
+    <div class="fleetgrid" style="background:#fff">
+      <div class="fb"><div class="cap">25–50<i>T</i></div><div class="ty">Mobile / all-terrain</div>
+        <p>Urban sites, tight access, short-duration lifts and general construction.</p>
+        <div class="st">Available · <span class="tbc">[## m]</span></div></div>
+      <div class="fb"><div class="cap">50–150<i>T</i></div><div class="ty">Mobile / rough terrain</div>
+        <p>Structural steel, precast panels, plant installation and positioning.</p>
+        <div class="st">Available · <span class="tbc">[## m]</span></div></div>
+      <div class="fb"><div class="cap">150–300<i>T</i></div><div class="ty">Mobile / all-terrain</div>
+        <p>Heavy plant, tower crane erection and dismantling, infrastructure.</p>
+        <div class="st">Available · <span class="tbc">[## m]</span></div></div>
+      <div class="fb"><div class="cap">300–500<i>T</i></div><div class="ty">Heavy-lift mobile</div>
+        <p>Major infrastructure, refinery, power and industrial plant programmes.</p>
+        <div class="st">On request · <span class="tbc">[## m]</span></div></div>
+      <div class="fb full">
+        <div><div class="cap">20–55<i>M</i></div><div class="ty">Skylift / access platform</div></div>
+        <div><p>Working at height for M&amp;E installation, façade work, signage, warehouse and plant
+           maintenance — 20 to 55 metres of working height, indoor and outdoor.</p>
+          <div class="st">Available across the range</div></div>
+      </div>
+    </div>
+    <p class="small" style="margin-top:20px">Need something outside these bands? We source through a vetted
+       partner network — <a href="#contact" style="color:var(--blue);font-weight:600;text-decoration:underline">tell us the load</a>.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="lbl">03 / Assurance</div>
+      <div><h2>Every lift, to the same standard</h2></div>
+    </div>
+    <div class="assure">
+      <div><div class="n">01</div><b>Competent operators</b><p>JKKP/DOSH-registered competent crane operators on every lift.</p></div>
+      <div><div class="n">02</div><b>Qualified personnel</b><p>Experienced riggers and signalmen who have run the job before.</p></div>
+      <div><div class="n">03</div><b>Certified equipment</b><p>Machines certified and inspected to schedule, records on file.</p></div>
+      <div><div class="n">04</div><b>Safety-focused</b><p>Lifting operations planned, briefed and supervised — not improvised.</p></div>
+      <div><div class="n">05</div><b>Trusted experience</b><p>Proven across construction and industrial projects nationwide.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="dark">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="lbl">04 / Process</div>
+      <div><h2>From enquiry to lift in four steps</h2></div>
+    </div>
+    <div class="steps">
+      <div class="stepc"><h4>Tell us the load</h4><p>Weight, radius, site access, dates. Two minutes on the form or one call.</p></div>
+      <div class="stepc"><h4>Site assessment</h4><p>We visit or review your drawings and confirm the right machine and rigging plan.</p></div>
+      <div class="stepc"><h4>Written quote</h4><p>Fixed scope, mobilisation, operator and insurance — no surprise line items.</p></div>
+      <div class="stepc"><h4>Lift executed</h4><p>Certified crew on site, permits in order, documented completion.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="lbl">05 / Projects</div>
+      <div>
+        <h2>Proof, not just pictures</h2>
+        <p class="lead">Captioned project cards — client type, tonnage, machine, location — convert.
+           Raw photo walls do not.</p>
+      </div>
+    </div>
+    <div class="gal">
+      <a href="#"><figure class="slot"><img src="images/project-1.jpg" alt="" onerror="this.remove()">
+        <figcaption>project-1.jpg · 1200×840</figcaption></figure>
+        <div class="bd"><div class="t tbc">[Project name]</div><div class="m tbc">[Tonnage · machine · location]</div></div></a>
+      <a href="#"><figure class="slot"><img src="images/project-2.jpg" alt="" onerror="this.remove()">
+        <figcaption>project-2.jpg</figcaption></figure>
+        <div class="bd"><div class="t tbc">[Project name]</div><div class="m tbc">[Tonnage · location]</div></div></a>
+      <a href="#"><figure class="slot"><img src="images/project-3.jpg" alt="" onerror="this.remove()">
+        <figcaption>project-3.jpg</figcaption></figure>
+        <div class="bd"><div class="t tbc">[Project name]</div><div class="m tbc">[Tonnage · location]</div></div></a>
+      <a href="#"><figure class="slot"><img src="images/project-4.jpg" alt="" onerror="this.remove()">
+        <figcaption>project-4.jpg</figcaption></figure>
+        <div class="bd"><div class="t tbc">[Project name]</div><div class="m tbc">[Tonnage · location]</div></div></a>
+      <a href="#"><figure class="slot"><img src="images/project-5.jpg" alt="" onerror="this.remove()">
+        <figcaption>project-5.jpg</figcaption></figure>
+        <div class="bd"><div class="t tbc">[Project name]</div><div class="m tbc">[Tonnage · location]</div></div></a>
+      <a href="#"><figure class="slot"><img src="images/project-6.jpg" alt="" onerror="this.remove()">
+        <figcaption>project-6.jpg</figcaption></figure>
+        <div class="bd"><div class="t tbc">[Project name]</div><div class="m tbc">[Tonnage · location]</div></div></a>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="bone">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="lbl">06 / Company</div>
+      <div><h2>Built on hard work and a relentless pursuit of excellence</h2></div>
+    </div>
+    <div class="about" style="background:#fff">
+      <figure class="slot"><img src="images/about.jpg" alt="" onerror="this.remove()">
+        <figcaption>images/about.jpg · 1200×1400<br>team or yard photo</figcaption></figure>
+      <div class="bd">
+        <p class="lead" style="margin-bottom:18px">Aerolift Machinery Sdn Bhd began as a small crane rental
+           company and has grown into a mechanical lifting enterprise serving construction and industrial
+           projects across Malaysia.</p>
+        <p style="color:var(--slate);font-size:15.5px">Our people are the foundation of that success —
+           supported by continuous training, mentorship, and a culture built on trust, open communication
+           and respect.</p>
+        <div class="credbox">
+          <div class="r"><span>Established</span><b class="tbc">[year]</b></div>
+          <div class="r"><span>Registration</span><b class="tbc">[Company reg. no.]</b></div>
+          <div class="r"><span>Certifications</span><b class="tbc">[DOSH / CIDB grade / ISO]</b></div>
+          <div class="r"><span>Insurance</span><b class="tbc">[Cover &amp; limit]</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="lbl">07 / Enquiry</div>
+      <div><h2>Have a lift coming up?</h2></div>
+    </div>
+    <div class="quote">
+      <div class="side">
+        <h2>Get a written quote in 24 hours</h2>
+        <p>Tell us the load and the site. We'll confirm the machine, the crew and the price — in writing,
+           with no surprise line items.</p>
+        <ul>
+          <li>Free site assessment</li>
+          <li>Operator &amp; insurance included</li>
+          <li>Fixed, itemised scope</li>
+        </ul>
+        <p class="small" style="margin-top:28px;color:rgba(16,18,20,.7)">
+          Prefer to talk? <a href="tel:+60199155159" style="text-decoration:underline;font-weight:700">+60 19-915 5159</a>
+          (Andrew) · Mon–Fri 8:00–20:00
+        </p>
+      </div>
+      <form class="form" onsubmit="event.preventDefault();alert('Demo form — connect this to your email or CRM before going live.')">
+        <div class="frow">
+          <div class="field"><label for="q-name">Name</label><input id="q-name" required></div>
+          <div class="field"><label for="q-co">Company</label><input id="q-co"></div>
+        </div>
+        <div class="frow">
+          <div class="field"><label for="q-tel">Phone</label><input id="q-tel" type="tel" required></div>
+          <div class="field"><label for="q-em">Email</label><input id="q-em" type="email"></div>
+        </div>
+        <div class="frow">
+          <div class="field"><label for="q-svc">Equipment</label>
+            <select id="q-svc">
+              <option>Mobile crane — 25–50 T</option>
+              <option>Mobile crane — 50–150 T</option>
+              <option>Mobile crane — 150–300 T</option>
+              <option>Mobile crane — 300–500 T</option>
+              <option>Skylift — 20–55 m</option>
+              <option>Not sure — please advise</option>
+            </select></div>
+          <div class="field"><label for="q-date">Required date</label><input id="q-date" type="date"></div>
+        </div>
+        <div class="field"><label for="q-msg">Load &amp; site details</label>
+          <textarea id="q-msg" placeholder="Weight, radius, site location, access constraints, duration…"></textarea></div>
+        <button class="btn btn-fill" style="margin-top:22px;width:100%">Send enquiry →</button>
+        <p class="formnote">This is a design mockup — the form is not connected yet.
+          <span class="tbc">[Decide where enquiries should go: email, WhatsApp, or CRM]</span></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div class="ctaband"><div class="wrap">
+  <div>
+    <h2>Or just call us.</h2>
+    <p>Andrew answers the phone. Mon–Fri, 8:00 – 20:00.</p>
+  </div>
+  <div style="display:flex;gap:14px;flex-wrap:wrap">
+    <a href="tel:+60199155159" class="btn btn-yellow">+60 19-915 5159</a>
+    <a href="https://wa.me/60199155159" class="btn btn-outw">WhatsApp us</a>
+  </div>
+</div></div>
+
+<footer><div class="wrap">
+  <div class="fgrid">
+    <div>
+      <div class="logo" style="margin-bottom:18px">
+        <div class="mark"><img src="images/logo.png" alt="" onerror="this.remove()"></div>
+        <div class="txt">Aerolift<span>Machinery Sdn Bhd</span></div>
+      </div>
+      <p style="max-width:34ch;font-size:14.5px">Mobile crane and skylift rental with JKKP/DOSH-registered
+         competent operators, serving Kuala Lumpur, Selangor and nationwide.</p>
+      <p class="small" style="margin-top:14px"><span class="tbc">[Company registration no.]</span></p>
+    </div>
+    <div><h5>Services</h5><ul>
+      <li><a href="#services">Mobile crane rental</a></li><li><a href="#services">Skylift &amp; access</a></li>
+      <li><a href="#services">Lift planning</a></li><li><a href="#services">Site assessment</a></li></ul></div>
+    <div><h5>Company</h5><ul>
+      <li><a href="#about">About</a></li><li><a href="#projects">Projects</a></li>
+      <li><a href="#">Careers</a></li><li><a href="#contact">Contact</a></li></ul></div>
+    <div><h5>Contact</h5><ul>
+      <li><a href="tel:+60199155159">+60 19-915 5159</a> (Andrew)</li>
+      <li><a href="mailto:info@aeroliftmachinery.com">info@aeroliftmachinery.com</a></li>
+      <li>Mon–Fri, 8:00 – 20:00</li>
+      <li style="margin-top:8px">BJ 2T2 Lot 3409, Jalan Perindustrian,<br>Jalan Balakong Jaya, Tambahan Sri Kembangan,<br>43300 Seri Kembangan, Selangor</li></ul></div>
+  </div>
+  <div class="fbot">
+    <div>© 2026 Aerolift Machinery Sdn Bhd. All rights reserved.</div>
+    <div style="display:flex;gap:22px"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Sitemap</a></div>
+  </div>
+</div><div class="fbar"></div></footer>
+
+<div class="mbar">
+  <a href="tel:+60199155159" class="btn btn-out">Call</a>
+  <a href="#contact" class="btn btn-yellow">Get a quote</a>
+</div>
+
+</body>
+</html>
