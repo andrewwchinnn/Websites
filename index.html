@@ -77,10 +77,48 @@ header{position:sticky;top:0;z-index:60;background:var(--paper);border-bottom:2p
 .logo .txt span{display:block;font-family:var(--fb);font-size:8px;font-weight:500;letter-spacing:.13em;
   text-transform:uppercase;color:var(--muted);margin-top:5px;white-space:nowrap}
 .menu{display:flex;gap:0}
-.menu a{font-size:14.5px;font-weight:600;padding:8px 15px;position:relative}
+.menu a{font-size:14.5px;font-weight:600;padding:8px 12px;position:relative}
 .menu a:hover{color:var(--blue)}
-.menu a.on::after{content:"";position:absolute;left:15px;right:15px;bottom:0;height:3px;background:var(--yellow)}
+.menu a.on::after{content:"";position:absolute;left:12px;right:12px;bottom:0;height:3px;
+  background:var(--yellow);display:none}
+.menu{position:relative}
+.menu-ind{position:absolute;bottom:0;left:0;width:0;height:3px;background:var(--yellow);
+  pointer-events:none;transition:none}
+.menu-ind.ready{transition:left .28s cubic-bezier(.4,0,.2,1),width .28s cubic-bezier(.4,0,.2,1)}
 .burger{display:none;font-size:24px;background:none;border:0;cursor:pointer}
+
+/* ---- collapsing navigation --------------------------------------------------
+   The full nav needs ~1090px in English but ~1300px in Malay/Tamil, so one fixed
+   breakpoint cannot suit every language. A script measures the bar and adds
+   .nav-collapsed when it would not fit; the media query below is the no-JS floor
+   so landscape phones and tablets still behave.
+   Nothing in the bar may shrink — squashing is what produced the stacked
+   single-letter labels in landscape. */
+.nav > *{flex-shrink:0}
+.menu a{white-space:nowrap}
+header.nav-tight .nav{gap:18px}
+header.nav-tight .nav > .social{display:none}
+header.nav-collapsed .menu{display:none}
+header.nav-collapsed .burger{display:block}
+header.nav-collapsed .nav > .social{display:none}
+header.nav-collapsed .nav > .btn{display:none}
+@media(max-width:1080px){
+  .menu{display:none}
+  .burger{display:block}
+  .nav > .social{display:none}
+  .nav > .btn{display:none}
+}
+/* Open dropdown panel — valid at any width, since it can only be opened from the
+   burger, which exists only while collapsed. Declared after the rules above so it
+   wins on equal specificity. */
+header.menu-open .menu{display:flex;flex-direction:column;gap:0;position:absolute;
+  left:0;right:0;top:100%;background:var(--paper);border-bottom:2px solid var(--line);
+  padding:4px 20px 12px;z-index:70;box-shadow:0 14px 28px rgba(16,18,20,.12)}
+header.menu-open .menu a{padding:14px 2px;font-size:16px;border-bottom:1px solid var(--hair)}
+header.menu-open .menu a:last-child{border-bottom:0}
+header.menu-open .menu a.on::after{display:block;left:2px;right:auto;width:26px;bottom:6px}
+header.menu-open .menu-ind{display:none}
+header.menu-open .burger{color:var(--blue)}
 
 [hidden]{display:none!important}
 
@@ -352,18 +390,6 @@ footer a:hover{color:var(--blue)}
   body{font-size:16px}
   section{padding:64px 0}
   .wrap{padding:0 20px}
-  .menu{display:none}.burger{display:block}
-  /* Not enough room beside the logo on phones — the footer carries these
-     with full labels, so hide them here rather than squash the logo. */
-  .nav > .social{display:none}
-  header.menu-open .menu{display:flex;flex-direction:column;gap:0;position:absolute;
-    left:0;right:0;top:100%;background:var(--paper);border-bottom:2px solid var(--line);
-    padding:4px 20px 12px;z-index:70;box-shadow:0 14px 28px rgba(16,18,20,.12)}
-  header.menu-open .menu a{padding:14px 2px;font-size:16px;border-bottom:1px solid var(--hair)}
-  header.menu-open .menu a:last-child{border-bottom:0}
-  header.menu-open .menu a.on::after{left:2px;right:auto;width:26px;bottom:6px}
-  header.menu-open .burger{color:var(--blue)}
-  .nav .btn{display:none}
   .g3{grid-template-columns:1fr}
   .cell{border-right:0!important;border-bottom:2px solid var(--line)}
   .cell:last-child{border-bottom:0}
@@ -817,6 +843,11 @@ footer a:hover{color:var(--blue)}
         if (typeof window.__aeroliftRenderCareers === 'function') window.__aeroliftRenderCareers();
       } catch (e) {
         if (window.console && console.error) console.error('Careers redraw failed:', e);
+      }
+      try {
+        if (typeof window.__aeroliftRefreshNav === 'function') window.__aeroliftRefreshNav();
+      } catch (e) {
+        if (window.console && console.error) console.error('Nav underline refresh failed:', e);
       }
     }
 
@@ -1463,6 +1494,140 @@ footer a:hover{color:var(--blue)}
 
   } catch (err) {
     if (window.console && console.error) console.error('Careers modal failed to initialise:', err);
+  }
+})();
+</script>
+
+
+<script>
+/* Nav scrollspy: moves the yellow underline to whichever section is in view.
+   Fully guarded — a failure here leaves the nav static but the page working. */
+(function(){
+  try {
+    var header = document.querySelector('header');
+    var menu   = document.querySelector('.menu');
+    if (!header || !menu) return;
+
+    var links = Array.prototype.slice.call(menu.querySelectorAll('a'));
+    if (!links.length) return;
+
+    var homeLink = null, targets = [];
+    links.forEach(function(a){
+      var href = a.getAttribute('href') || '';
+      if (href === '#' || href === '') { if (!homeLink) homeLink = a; return; }
+      var el = null;
+      try { el = document.querySelector(href); } catch (e) { el = null; }
+      if (el) targets.push({ link: a, el: el });
+    });
+    if (!homeLink) homeLink = links[0];
+
+    var ind = document.createElement('div');
+    ind.className = 'menu-ind';
+    menu.appendChild(ind);
+
+    var current = null;
+
+    function place(link){
+      if (!link) return;
+      // Derive the inset from the link's real padding so the bar stays aligned
+      // if that padding is ever changed.
+      var cs = window.getComputedStyle(link);
+      var padL = parseFloat(cs.paddingLeft) || 0;
+      var padR = parseFloat(cs.paddingRight) || 0;
+      ind.style.left = (link.offsetLeft + padL) + 'px';
+      ind.style.width = Math.max(0, link.offsetWidth - padL - padR) + 'px';
+    }
+
+    function setActive(link){
+      if (link === current) { place(link); return; }
+      current = link;
+      for (var i = 0; i < links.length; i++) {
+        if (links[i] === link) {
+          links[i].classList.add('on');
+          links[i].setAttribute('aria-current', 'true');
+        } else {
+          links[i].classList.remove('on');
+          links[i].removeAttribute('aria-current');
+        }
+      }
+      place(link);
+    }
+
+    function update(){
+      var probe = header.offsetHeight + 12;
+      var active = homeLink;
+      for (var i = 0; i < targets.length; i++) {
+        if (targets[i].el.getBoundingClientRect().top <= probe) active = targets[i].link;
+      }
+      // The final section may never cross the probe, so pin it at the page bottom.
+      var atBottom = (window.innerHeight + window.pageYOffset) >=
+                     (document.documentElement.scrollHeight - 2);
+      if (atBottom && targets.length) active = targets[targets.length - 1].link;
+      setActive(active);
+    }
+
+    // Deliberately NOT a requestAnimationFrame latch: if rAF is paused (hidden or
+    // throttled tab) the latch never clears and the underline stops tracking for
+    // good. A timestamp throttle plus a trailing call cannot get stuck.
+    var lastRun = 0, trailing = 0;
+    function onScroll(){
+      var now = Date.now();
+      if (now - lastRun >= 50) { lastRun = now; update(); }
+      clearTimeout(trailing);
+      trailing = setTimeout(function(){ lastRun = Date.now(); update(); }, 90);
+    }
+
+    // Collapse to a burger whenever the full nav would not fit.
+    var navEl = document.querySelector('.nav');
+    function fitNav(){
+      try {
+        if (!navEl) return;
+        if (window.innerWidth <= 1080) return;   // the media query owns this range
+
+        // Degrade in stages rather than jumping straight to a burger:
+        //   full bar -> drop the social icons (duplicated in the footer) -> burger.
+        header.classList.remove('nav-collapsed');
+        header.classList.remove('nav-tight');
+
+        if (navEl.scrollWidth > navEl.clientWidth + 1) {
+          header.classList.add('nav-tight');
+          if (navEl.scrollWidth > navEl.clientWidth + 1) {
+            header.classList.add('nav-collapsed');
+          }
+        }
+        if (!header.classList.contains('nav-collapsed')) {
+          header.classList.remove('menu-open');  // never strand an open panel
+        }
+        place(current);
+      } catch (e) {}
+    }
+    window.__aeroliftFitNav = fitNav;
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', function(){ current = null; fitNav(); onScroll(); });
+
+    // Label widths change with language, so the bar must be re-measured.
+    window.__aeroliftRefreshNav = function(){
+      // Re-measure a few times: right after the swap the new text may not have
+      // been laid out with its final font metrics yet, which let Tamil slip
+      // through as "fits" and overflow the page.
+      var runs = [0, 80, 260];
+      runs.forEach(function(ms){
+        setTimeout(function(){ try { fitNav(); place(current); } catch (e) {} }, ms);
+      });
+    };
+
+    fitNav();
+    update();
+    // Enable the slide only after the first placement, so it doesn't fly in from 0.
+    setTimeout(function(){ ind.classList.add('ready'); }, 40);
+    // Webfonts landing late can shift link widths.
+    if (document.fonts && document.fonts.ready && document.fonts.ready.then) {
+      document.fonts.ready.then(function(){ try { fitNav(); place(current); } catch (e) {} });
+    }
+
+  } catch (err) {
+    if (window.console && console.error) console.error('Nav scrollspy failed to initialise:', err);
   }
 })();
 </script>
